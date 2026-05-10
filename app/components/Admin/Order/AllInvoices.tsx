@@ -14,7 +14,8 @@ type Props = {
 };
 
 const AllInvoices = ({ isDashboard }: Props) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
+  const isDark = theme === "dark" || theme === "system"; // ← ADDED
   const { isLoading, data } = useGetAllOrdersQuery({});
   const { data: usersData } = useGetAllUsersQuery({});
   const { data: coursesData } = useGetAllCoursesQuery({});
@@ -25,10 +26,10 @@ const AllInvoices = ({ isDashboard }: Props) => {
     if (data) {
       const temp = data.orders.map((item: any) => {
         const user = usersData?.users.find(
-          (user: any) => user._id === item.userId
+          (user: any) => user._id === item.userId,
         );
         const course = coursesData?.courses.find(
-          (course: any) => course._id === item.courseId
+          (course: any) => course._id === item.courseId,
         );
         return {
           ...item,
@@ -102,44 +103,62 @@ const AllInvoices = ({ isDashboard }: Props) => {
                 border: "none",
                 outline: "none",
               },
+              "& .MuiDataGrid-columnHeaders": {
+                display: "none", // ← hides header in dashboard mode
+              },
+              "& .MuiDataGrid-footerContainer": {
+                color: isDark ? "#fff" : "#000",
+                borderTop: "none",
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
+                minHeight: isDashboard ? "40px" : "56px", // ← ADD THIS
+                height: isDashboard ? "40px" : "56px", // ← ADD THIS
+              },
               "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-sortIcon": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-row": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderBottom:
-                  theme === "dark"
-                    ? "1px solid #ffffff30!important"
-                    : "1px solid #ccc!important",
+                color: isDark ? "#fff" : "#000",
+                borderBottom: isDark
+                  ? "1px solid #ffffff30!important"
+                  : "1px solid #ccc!important",
+              },
+              "& .MuiDataGrid-columnHeader": {
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
+                color: isDark ? "#fff" : "#000",
+              },
+              "& .MuiDataGrid-columnHeaderTitle": {
+                color: isDark ? "#fff" : "#000",
+              },
+              "& .MuiDataGrid-filler": {
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
               },
               "& .MuiTablePagination-root": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-cell": {
                 borderBottom: "none!important",
               },
               "& .name-column--cell": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
                 borderBottom: "none",
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: theme === "dark" ? "#1F2A40" : "#F2F0F0",
+                backgroundColor: isDark ? "#1F2A40" : "#F2F0F0",
               },
               "& .MuiDataGrid-footerContainer": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
                 borderTop: "none",
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
               },
               "& .MuiCheckbox-root": {
-                color:
-                  theme === "dark" ? `#b7ebde !important` : `#000 !important`,
+                color: isDark ? `#b7ebde !important` : `#000 !important`,
               },
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                 color: `#fff !important`,
@@ -150,7 +169,7 @@ const AllInvoices = ({ isDashboard }: Props) => {
               checkboxSelection={isDashboard ? false : true}
               rows={rows}
               columns={columns}
-              components={isDashboard ? {} : { Toolbar: GridToolbar }}
+              slots={isDashboard ? {} : { toolbar: GridToolbar }}
             />
           </Box>
         </Box>

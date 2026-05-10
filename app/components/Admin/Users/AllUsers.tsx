@@ -18,7 +18,8 @@ type Props = {
 };
 
 const AllCourses: FC<Props> = ({ isTeam }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();                                    // ← removed setTheme
+  const isDark = theme === "dark" || theme === "system";           // ← ADDED
   const [active, setActive] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("admin");
@@ -40,7 +41,6 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         toast.error(errorMessage.data.message);
       }
     }
-
     if (isSuccess) {
       refetch();
       toast.success("User role updated successfully");
@@ -109,7 +109,6 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
   if (isTeam) {
     const newData =
       data && data.users.filter((item: any) => item.role === "admin");
-
     newData &&
       newData.forEach((item: any) => {
         rows.push({
@@ -169,43 +168,51 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                 outline: "none",
               },
               "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-sortIcon": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-row": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderBottom:
-                  theme === "dark"
-                    ? "1px solid #ffffff30!important"
-                    : "1px solid #ccc!important",
+                color: isDark ? "#fff" : "#000",
+                borderBottom: isDark
+                  ? "1px solid #ffffff30!important"
+                  : "1px solid #ccc!important",
               },
               "& .MuiTablePagination-root": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-cell": {
                 borderBottom: "none!important",
               },
               "& .name-column--cell": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
                 borderBottom: "none",
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
+              },
+              "& .MuiDataGrid-columnHeader": {
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
+                color: isDark ? "#fff" : "#000",
+              },
+              "& .MuiDataGrid-columnHeaderTitle": {
+                color: isDark ? "#fff" : "#000",
+              },
+              "& .MuiDataGrid-filler": {
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
               },
               "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: theme === "dark" ? "#1F2A40" : "#F2F0F0",
+                backgroundColor: isDark ? "#1F2A40" : "#F2F0F0",
               },
               "& .MuiDataGrid-footerContainer": {
-                color: theme === "dark" ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
                 borderTop: "none",
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
+                backgroundColor: isDark ? "#3e4396" : "#A4A9FC",
               },
               "& .MuiCheckbox-root": {
-                color:
-                  theme === "dark" ? `#b7ebde !important` : `#000 !important`,
+                color: isDark ? `#b7ebde !important` : `#000 !important`,
               },
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                 color: `#fff !important`,
@@ -251,7 +258,6 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
               </Box>
             </Modal>
           )}
-
           {open && (
             <Modal
               open={open}
