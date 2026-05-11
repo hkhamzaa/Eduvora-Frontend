@@ -1,0 +1,46 @@
+'use client'
+import CourseContent from "@/app/components/Course/CourseContent";
+import Loader from "@/app/components/Loader/Loader";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import { redirect } from "next/navigation";
+import React, { use, useEffect } from "react";
+
+type Props = {
+    params:any;
+}
+
+const Page = ({params}: Props) => {
+    const resolvedParams = use(params);
+    const id = resolvedParams.id;
+  const { isLoading, error, data,refetch } = useLoadUserQuery(undefined, { refetchOnMountOrArgChange: true });
+
+  useEffect(() => {
+    if (data) {
+      const isPurchased = data.user.courses.find(
+        (item: any) => item.courseId === id
+      );
+      if (!isPurchased) {
+        redirect("/");
+      }
+    }
+    if (error) {
+      redirect("/");
+    }
+  }, [data,error]);
+
+  return (
+   <>
+   {
+    isLoading ? (
+        <Loader />
+    ) : (
+        <div>
+          <CourseContent id={id} user={data.user} />
+        </div>
+    )
+   }
+   </>
+  )
+}
+
+export default Page
