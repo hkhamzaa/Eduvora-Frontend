@@ -5,7 +5,6 @@ import { PiUsersFourLight } from "react-icons/pi";
 import { Box, CircularProgress } from "@mui/material";
 import OrdersAnalytics from "../Analytics/OrdersAnalytics";
 import AllInvoices from "../Order/AllInvoices";
-import Neo4jGraphStats from "../Analytics/Neo4jGraphStats";
 import {
   useGetOrdersAnalyticsQuery,
   useGetUsersAnalyticsQuery,
@@ -68,13 +67,19 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
           const ordersCurrentMonth = ordersLastTwoMonths[1].count;
           const ordersPreviousMonth = ordersLastTwoMonths[0].count;
 
-          const usersPercentChange = usersPreviousMonth !== 0 ?
-            ((usersCurrentMonth - usersPreviousMonth) / usersPreviousMonth) *
-            100 : 100;
+          const usersPercentChange =
+            usersPreviousMonth !== 0
+              ? ((usersCurrentMonth - usersPreviousMonth) /
+                  usersPreviousMonth) *
+                100
+              : 100;
 
-          const ordersPercentChange = ordersPreviousMonth !== 0 ?
-            ((ordersCurrentMonth - ordersPreviousMonth) / ordersPreviousMonth) *
-            100 : 100;
+          const ordersPercentChange =
+            ordersPreviousMonth !== 0
+              ? ((ordersCurrentMonth - ordersPreviousMonth) /
+                  ordersPreviousMonth) *
+                100
+              : 100;
 
           setuserComparePercentage({
             currentMonth: usersCurrentMonth,
@@ -112,17 +117,16 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                 </h5>
               </div>
               <div>
-                <CircularProgressWithLabel value={
-                  ordersComparePercentage?.percentChange > 0 
-                  ? 100 
-                  : 0
-                } open={open} />
+                <CircularProgressWithLabel
+                  value={ordersComparePercentage?.percentChange > 0 ? 100 : 0}
+                  open={open}
+                />
                 <h5 className="text-center pt-4">
-                 {
-                  ordersComparePercentage?.percentChange > 0 
-                  ? "+" + ordersComparePercentage?.percentChange.toFixed(2)
-                  : "-" + ordersComparePercentage?.percentChange.toFixed(2)
-                 } %
+                  {ordersComparePercentage?.percentChange > 0
+                    ? "+" + ordersComparePercentage?.percentChange.toFixed(2)
+                    : "-" +
+                      ordersComparePercentage?.percentChange.toFixed(2)}{" "}
+                  %
                 </h5>
               </div>
             </div>
@@ -140,15 +144,16 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                 </h5>
               </div>
               <div>
-                <CircularProgressWithLabel value={
-                  userComparePercentage?.percentChange > 0 
-                  ? 100 
-                  : 0
-                } open={open} />
+                <CircularProgressWithLabel
+                  value={userComparePercentage?.percentChange > 0 ? 100 : 0}
+                  open={open}
+                />
                 <h5 className="text-center pt-4">
                   {userComparePercentage?.percentChange > 0
-                    ? "+" + userComparePercentage?.percentChange.toFixed(2) 
-                    : "-" + userComparePercentage?.percentChange.toFixed(2)} %
+                    ? "+" + userComparePercentage?.percentChange.toFixed(2)
+                    : "-" +
+                      userComparePercentage?.percentChange.toFixed(2)}{" "}
+                  %
                 </h5>
               </div>
             </div>
@@ -167,8 +172,6 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
           <AllInvoices isDashboard={true} />
         </div>
       </div>
-
-      <Neo4jGraphStats />
     </div>
   );
 };
