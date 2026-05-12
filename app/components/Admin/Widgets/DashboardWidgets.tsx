@@ -5,6 +5,7 @@ import { PiUsersFourLight } from "react-icons/pi";
 import { Box, CircularProgress } from "@mui/material";
 import OrdersAnalytics from "../Analytics/OrdersAnalytics";
 import AllInvoices from "../Order/AllInvoices";
+import Neo4jGraphStats from "../Analytics/Neo4jGraphStats";
 import {
   useGetOrdersAnalyticsQuery,
   useGetUsersAnalyticsQuery,
@@ -166,6 +167,8 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
           <AllInvoices isDashboard={true} />
         </div>
       </div>
+
+      <Neo4jGraphStats />
     </div>
   );
 };
